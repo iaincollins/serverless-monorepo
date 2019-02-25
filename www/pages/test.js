@@ -12,7 +12,7 @@ export default class extends React.Component {
 
     const request = await fetch(`${server}/api/test`)
     const json = await request.json()
-    return { message: json.test }
+    return { message: json.testMessage }
   }
 
   constructor(props) {
@@ -31,7 +31,7 @@ export default class extends React.Component {
     const request = await fetch(`${server}/api/test`)
     const json = await request.json()
     this.setState({
-      message: json.test
+      message: json.testMessage
     })
   }
 
@@ -42,10 +42,15 @@ export default class extends React.Component {
         <h1>Serverless Monorepo</h1>
         <p>This is an example of a React frontend (using 'Next.js') and an API (using 'micro') where both the frontend and backend are serverless.</p>
         <h3>Data from the endpoint /api/test</h3>
-        <pre style={{border: '1px solid black', padding: 5, display: 'inline-block'}}>{message}</pre>
+        <pre style={{border: '1px solid black', padding: 5, display: 'inline-block'}}>
+          {message}
+        </pre>
         <p>On initial page render the data is fetched using server side logic.</p>
         <p>If you click the button below, it will be fetched client side.</p>
         <button onClick={this.onCallApiEndpoint}>Call API From Client</button>
+        <p>
+          View source on <a href="https://github.com/iaincollins/serverless-monorepo">github.com/iaincollins/serverless-monorepo</a>
+        </p>
       </Page>
     );
   }
