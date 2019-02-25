@@ -2,21 +2,21 @@ import React from "react";
 import Page from "../components/page";
 import 'isomorphic-unfetch'
 
-async function callApi(url) {
-  const request = await fetch(url)
+async function getDataFromApi({ req } = {}) {
+  // The optional request object `req` only exists server side, `window` is only client side
+  // When in development mode, host is always http://localhost:3001
+  const server = (process.env.NODE_ENV === 'production') 
+    ? (req) ? `https://${req.headers.host}` : `https://${window.location.host}`
+    : 'http://localhost:3001'
+
+  const request = await fetch(`${server}/api/test`)
   return await request.json()
 }
 
 export default class extends React.Component {
-  // getInitialProps() runs server side on first run and client side on subsequent page loads
   static async getInitialProps({ req }) {
-    // The request object `req` only exists server side and `window` is only client side
-    // When in development mode, host is always http://localhost:3001
-    const server = (process.env.NODE_ENV === 'production') 
-      ? (req) ? `https://${req.headers.host}` : `https://${window.location.host}`
-      : 'http://localhost:3001'
-
-    const apiData = await callApi(`${server}/api/test`)
+    // Runs both server side (first page load) and client side (subsequent page load)
+    const apiData = await getDataFromApi({ req })
     return { message: apiData.testMessage }
   }
 
@@ -29,11 +29,8 @@ export default class extends React.Component {
   }
 
   async onUpdateMessage() {
-    // This function is bound to a button onClick and can only be called client side
-    const server = (process.env.NODE_ENV === 'production') 
-    ? `https://${window.location.host}`
-    : 'http://localhost:3001'
-    const apiData = await callApi(`${server}/api/test`)
+    // On runs client side
+    const apiData = await getDataFromApi()
     this.setState({ message: apiData.testMessage })
   }
 

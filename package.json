@@ -1,6 +1,6 @@
 {
   "name": "serverless-monorepo",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A serverless monorepo using Next.js/React with local development support",
   "scripts": {
     "dev": "npm-run-all -p -r dev-api dev-www",
