@@ -1,0 +1,9 @@
+{
+  "name": "example-api",
+  "version": "1.0.0",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "micro": "^9.3.3"
+  }
+}
